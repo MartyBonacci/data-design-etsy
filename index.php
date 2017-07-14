@@ -15,7 +15,6 @@
 		<p>To start selling on Etsy, Marty will need to first setup a seller account, then list items for sale.</p>
 		<!--<p>Matt searches for terms such as "made in the usa" and "handmade leather" on Etsy. The search results have the terms in the itemName, itemOverview, and/or the itemDetails.</p>-->
 		<h2>Interaction Flow</h2>
-		<p></p>
 		<img src="images/data-design-etsy.svg" alt="data diagram">
 		<h2>Conceptual Model</h2>
 
