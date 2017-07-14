@@ -3,8 +3,8 @@
 -- this is akin to reformatting and reinstalling Windows (OS X never needs a reinstall...) ;)
 -- never ever ever ever ever ever ever ever ever ever ever ever ever ever ever ever ever ever ever ever
 -- do this on live data!!!!
-DROP TABLE IF EXISTS seller;
 DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS seller;
 
 
 -- the CREATE TABLE function is a function that takes tons of arguments to layout the table's schema
