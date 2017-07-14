@@ -17,11 +17,11 @@
 			<li>The user will navigate to the "create a seller account" page on Etsy.</li>
 			<li>The user will enter the seller attributes, sellerShopName, sellerLocation, sellerOnEtsySince, sellerShopOwnerName to create a seller account</li>
 			<li>The user/seller will navigate to the "list an item for sale" page.</li>
-			<li>The user will enter the item attributes, itemName, itemPrice, itemDetails, itemOverview, itemShippingPolicies, itemReviews, itemQuantity</li>
+			<li>The user will enter the item attributes, itemName, itemPrice, itemDetails, itemOverview, itemShippingPolicies, itemQuantity</li>
 		</ol>
 
 		<h2>Entity Relationship Diagram</h2>
-		<img src="images/data-design-etsy.svg" alt="data diagram">
+		<img src="images/data-design-etsy2.svg" alt="data diagram">
 		<h2>Conceptual Model</h2>
 		<h3>Entities and Attributes</h3>
 		<p><strong>seller</strong></p>
@@ -30,16 +30,17 @@
 			<li>sellerLocation</li>
 			<li>sellerOnEtsySince</li>
 			<li>sellerShopOwnerName</li>
+			<li>sellerId (primary key)</li>
 		</ul>
 		<p><strong>item</strong></p>
 		<ul>
-			<li>sellerShopName (foreign key)</li>
+			<li>sellerId (foreign key)</li>
+			<li>itemId</li>
 			<li>itemName</li>
 			<li>itemPrice</li>
 			<li>itemDetails</li>
 			<li>itemOverview</li>
 			<li>itemShippingPolicies</li>
-			<li>itemReviews</li>
 			<li>itemQuantity</li>
 		</ul>
 		<h3>Relations</h3>
