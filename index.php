@@ -17,6 +17,28 @@
 		<h2>Interaction Flow</h2>
 		<img src="images/data-design-etsy.svg" alt="data diagram">
 		<h2>Conceptual Model</h2>
+		<h3>Entities and Attributes</h3>
+		<p><strong>seller</strong></p>
+		<ul>
+			<li>sellerShopName (primary key)</li>
+			<li>sellerLocation</li>
+			<li>sellerOnEtsySince</li>
+			<li>sellerShopOwnerName</li>
+		</ul>
+		<p><strong>item</strong></p>
+		<ul>
+			<li>sellerShopName (foreign key)</li>
+			<li>itemName</li>
+			<li>itemPrice</li>
+			<li>itemDetails</li>
+			<li>itemOverview</li>
+			<li>itemShippingPolicies</li>
+			<li>itemReviews</li>
+			<li>itemQuantity</li>
+		</ul>
+		<h3>Relations</h3>
+		<p>Each individual seller can have multiple items for sale. To maintain this relationship the seller table's primary key of sellerShopName is used by the item table as a foreign key.</p>
+
 
 	</body>
 </html>
