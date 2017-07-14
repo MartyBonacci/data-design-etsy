@@ -20,7 +20,6 @@ CREATE TABLE seller (
 	-- to make sure duplicate data cannot exist, create a unique index
 	-- to make something optional, exclude the not null
 	UNIQUE(sellerShopName),
-	UNIQUE(sellerShopOwnerName),
 	-- this officiates the primary key for the entity
 	PRIMARY KEY(sellerId)
 );
@@ -34,10 +33,9 @@ CREATE TABLE item (
 	itemName VARCHAR(140) NOT NULL,
 	itemPrice DECIMAL (10,2) NOT NULL,
 	itemQuantity INT NOT NULL,
-	itemOverview VARCHAR(300) NOT NULL,
+	itemOverview VARCHAR(255) NOT NULL,
 	itemDetails VARCHAR(3000) NOT NULL,
-	itemShippingPolicies VARCHAR(300) NOT NULL,
-	UNIQUE (itemName),
+	itemShippingPolicies VARCHAR(255) NOT NULL,
 	-- this creates an index before making a foreign key
 	INDEX(sellerId),
 	-- this creates the actual foreign key relation
