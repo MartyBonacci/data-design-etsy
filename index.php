@@ -1,5 +1,5 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="author" content="Marty Bonacci">
@@ -13,7 +13,7 @@
 		<h2>Use Case</h2>
 		<p>Matt searches for terms such as "made in the usa" and "handmade leather" on Etsy. The search results have the terms in the itemName, itemOverview, and/or the itemDetails.</p>
 		<h2>Interaction Flow</h2>
-		<img src="images/data-design-etsy.svg">
+		<img src="images/data-design-etsy.svg" alt="data diagram">
 		<h2>Conceptual Model</h2>
 
 	</body>
