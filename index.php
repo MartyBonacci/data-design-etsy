@@ -13,6 +13,7 @@
 		<h2>Use Case</h2>
 		<p>Matt searches for terms </p>
 		<h2>Interaction Flow</h2>
+		<img src="images/data-design-etsy.svg">
 		<h2>Conceptual Model</h2>
 
 	</body>
