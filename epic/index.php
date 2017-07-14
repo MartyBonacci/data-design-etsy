@@ -15,7 +15,7 @@
 		<h2>Interaction Flow</h2>
 		<ol>
 			<li>The user will navigate to the "create a seller account" page on Etsy.</li>
-			<li>The user will enter the seller attributes, sellerShopName, sellerLocation, sellerOnEtsySince, sellerShopOwnerName to create a seller account</li>
+			<li>The user will enter the seller attributes, sellerShopName, sellerLocation, sellerShopOwnerName to create a seller account</li>
 			<li>The user/seller will navigate to the "list an item for sale" page.</li>
 			<li>The user will enter the item attributes, itemName, itemPrice, itemDetails, itemOverview, itemShippingPolicies, itemQuantity</li>
 		</ol>
