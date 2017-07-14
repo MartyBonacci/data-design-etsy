@@ -13,50 +13,35 @@ CREATE TABLE seller (
 	-- auto_increment tells mySQL to number them {1, 2, 3, ...}
 	-- not null means the attribute is required!
 	sellerId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	profileActivationToken CHAR(32),
 	sellerShopOwnerName VARCHAR(32) NOT NULL,
 	sellerShopName VARCHAR(32) NOT NULL,
 	sellerLocation VARCHAR(32) NOT NULL,
-	sellerOnEtsySince DATE
+	sellerOnEtsySince DATE NOT NULL ,
 	-- to make sure duplicate data cannot exist, create a unique index
-	profileEmail VARCHAR(128) NOT NULL,
-	profileHash	CHAR(128) NOT NULL,
 	-- to make something optional, exclude the not null
-	profilePhone VARCHAR(32),
-	profileSalt CHAR(64) NOT NULL,
 	UNIQUE(sellerShopName),
 	UNIQUE(sellerShopOwnerName),
 	-- this officiates the primary key for the entity
 	PRIMARY KEY(sellerId)
 );
 
--- create the tweet entity
-CREATE TABLE tweet (
+-- create the item entity
+CREATE TABLE item (
 	-- this is for yet another primary key...
-	tweetId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	itemId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	-- this is for a foreign key; auto_incremented is omitted by design
-	tweetProfileId INT UNSIGNED NOT NULL,
-	tweetContent VARCHAR(140) NOT NULL,
-	tweetDate DATETIME(6) NOT NULL,
+	sellerId INT UNSIGNED NOT NULL,
+	itemName VARCHAR(140) NOT NULL,
+	itemPrice DECIMAL (10,2) NOT NULL,
+	itemQuantity INT NOT NULL,
+	itemOverview VARCHAR(300) NOT NULL,
+	itemDetails VARCHAR(3000) NOT NULL,
+	itemShippingPolicies VARCHAR(300) NOT NULL,
+	UNIQUE (itemName),
 	-- this creates an index before making a foreign key
-	INDEX(tweetProfileId),
+	INDEX(sellerId),
 	-- this creates the actual foreign key relation
-	FOREIGN KEY(tweetProfileId) REFERENCES profile(profileId),
+	FOREIGN KEY(sellerId) REFERENCES seller(sellerId),
 	-- and finally create the primary key
-	PRIMARY KEY(tweetId)
+	PRIMARY KEY(itemId)
 );
-
--- create the like entity (a weak entity from an m-to-n for profile --> tweet)
-CREATE TABLE `like` (
-	-- these are not auto_increment because they're still foreign keys
-	likeProfileId INT UNSIGNED NOT NULL,
-	likeTweetId INT UNSIGNED NOT NULL,
-	likeDate DATETIME(6) NOT NULL,
-	-- index the foreign keys
-	INDEX(likeProfileId),
-	INDEX(likeTweetId),
-	-- create the foreign key relations
-	FOREIGN KEY(likeProfileId) REFERENCES profile(profileId),
-	FOREIGN KEY(likeTweetId) REFERENCES tweet(tweetId),
-	-- finally, create a composite foreign key with the two foreign keys
-	PRIMARY KEY(likeProfileId, likeTweetId)
