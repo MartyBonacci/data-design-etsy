@@ -45,11 +45,11 @@
 			}
 
 			public function setSellerShopOwnerName($newSellerShopOwnerName) {
-				$this->SellerShopOwnerName = $newSellerShopOwnerName;
+				$this->sellerShopOwnerName = $newSellerShopOwnerName;
 			}
 
 			public function setSellerShopName($newSellerShopName) {
-				$this->SellerShopName = $newSellerShopName;
+				$this->sellerShopName = $newSellerShopName;
 			}
 
 			public function setSellerLocation($newSellerLocation) {
@@ -57,7 +57,7 @@
 			}
 
 			public function setSellerOnEtsySince($newSellerOnEtsySince) {
-				$this->SellerOnEtsySince = $newSellerOnEtsySince;
+				$this->sellerOnEtsySince = $newSellerOnEtsySince;
 			}
 
 			public function __construct($newSellerId, $newSellerShopOwnerName, $newSellerShopName, $newSellerLocation, $newSellerOnEtsySince){
@@ -68,7 +68,9 @@
 				$this->setSellerOnEtsySince($newSellerOnEtsySince);
 			}
 		}
+
 		$seller = new Seller(2,"Fred","Fred's Shop","Omaha, NE",7/15/2017);
+
 		echo $seller->getSellerId()."<br />";
 		echo $seller->getSellerShopOwnerName()."<br />";
 		echo $seller->getSellerShopName()."<br/>";
