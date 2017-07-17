@@ -7,7 +7,10 @@
 		<title>Data Design Etsy</title>
 	</head>
 	<body>
-
+		<?php
+		$sellerId=strip_tags($_POST[$sellerId]);
+		echo $sellerId;
+		?>
 		<!--input new seller info-->
 		<form action="index.php" method="post" name="newSeller" id="newSeller">
 			<input title="Seller ID" type="text" name="sellerId" id="sellerId"/>
