@@ -69,9 +69,21 @@
 			}
 		}
 		$seller = new Seller(2,"Fred","Fred's Shop","Omaha, NE",7/15/2017);
+		echo $seller->getSellerId()."<br />";
 		echo $seller->getSellerShopOwnerName()."<br />";
+		echo $seller->getSellerShopName()."<br/>";
+		echo $seller->getSellerLocation()."<br/>";
+		echo $seller->getSellerOnEtsySince()."<br/>";
+
 		$seller->setSellerShopOwnerName("Freddie");
+
+		echo $seller->getSellerId()."<br />";
 		echo $seller->getSellerShopOwnerName()."<br />";
+		echo $seller->getSellerShopName()."<br/>";
+		echo $seller->getSellerLocation()."<br/>";
+		echo $seller->getSellerOnEtsySince()."<br/>";
+
+
 		?>
 	</body>
 </html>
