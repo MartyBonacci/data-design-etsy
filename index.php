@@ -7,15 +7,22 @@
 		<title>Data Design Etsy</title>
 	</head>
 	<body>
+
+		<!--input new seller info-->
+		<form action="index.php" method="post" name="newSeller" id="newSeller">
+			<input title="Seller ID" type="text" name="sellerId" id="sellerId"/>
+			<input type="submit" name="send" id="send" value="send"/>
+		</form>
+
+
 		<?php
-		/*Create seller Class*/
+		/*seller class*/
 		class seller {
 			private $sellerId;
 			private $sellerShopOwnerName;
 			private $sellerShopName;
 			private $sellerLocation;
 			private $sellerOnEtsySince;
-
 
 			public function getSellerId() {
 				return($this->sellerId);
@@ -58,12 +65,7 @@
 			}
 		}
 
-
-
-
-
-
-
+		/*item class*/
 		class item {
 			private $itemId;
 			private $sellerId;
@@ -157,6 +159,15 @@
 
 
 		$item = new item (1,1,"book",34.95,2,"new,200pgs","details bla bla bla","We'll ship your order within 1 busines day");
+		echo $item->getItemId()."<br/>";
+		echo $item->getSellerId()."<br/>";
+		echo $item->getItemName()."<br/>";
+		echo $item->getItemPrice()."<br/>";
+		echo $item->getItemQuantity()."<br/>";
+		echo $item->getItemOverview()."<br/>";
+		echo $item->getItemDetails()."<br/>";
+		echo $item->getItemShippingPolicies()."<br/>";
+
 		$item = new item (2,1,"hammer",19.95,1,"new,framing hammer","details bla bitty bla bla","We'll ship your order within 2 busines days");
 		echo $item->getItemId()."<br/>";
 		echo $item->getSellerId()."<br/>";
