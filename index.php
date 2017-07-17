@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<?php
+		settype($sellerId,"string");
 		$sellerId=strip_tags($_POST[$sellerId]);
 		echo $sellerId;
 		?>
