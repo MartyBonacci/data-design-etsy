@@ -68,7 +68,7 @@
 				$this->setSellerOnEtsySince($newSellerOnEtsySince);
 			}
 		}
-		$seller = new Seller(1,"Fred","Fred's Shop","Omaha, NE",7/15/2017);
+		$seller = new Seller(2,"Fred","Fred's Shop","Omaha, NE",7/15/2017);
 		echo $seller->getSellerShopOwnerName()."<br />";
 		$seller->setSellerShopOwnerName("Freddie");
 		echo $seller->getSellerShopOwnerName()."<br />";
