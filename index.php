@@ -7,19 +7,26 @@
 		<title>Data Design Etsy</title>
 	</head>
 	<body>
+
+
 		<?php
-		settype($sellerId,"string");
-		$sellerId = strip_tags($_POST["sellerId"]);
-		echo $sellerId;
+		//settype($sellerId,"string");
+		//$sellerId = strip_tags($_POST["sellerId"]);
+		//echo $sellerId;
 		?>
 		<!--input new seller info-->
-		<form action="index.php" method="post" name="newSeller" id="newSeller">
+		<!--<form action="index.php" method="post" name="newSeller" id="newSeller">
 			<input title="Seller ID" type="text" name="sellerId" id="sellerId"/>
 			<input type="submit" name="send" id="send" value="send"/>
 		</form>
-
+		-->
 
 		<?php
+
+		require_once ("nunya.php");
+		$link = mysqli_connect("localhost:3306","$username","$password") or die("Could not connect:".mysqli_error($link));
+		mysqli_close($link);
+
 		/*seller class*/
 		class seller {
 			private $sellerId;
@@ -181,6 +188,12 @@
 		echo $item->getItemOverview()."<br/>";
 		echo $item->getItemDetails()."<br/>";
 		echo $item->getItemShippingPolicies()."<br/>";
+
+
+
+
+
+
 		?>
 	</body>
 </html>
