@@ -45,11 +45,11 @@
 			}
 
 			public function setSellerShopOwnerName($newSellerShopOwnerName) {
-				$this->setSellerShopOwnerName = $newSellerShopOwnerName;
+				$this->SellerShopOwnerName = $newSellerShopOwnerName;
 			}
 
 			public function setSellerShopName($newSellerShopName) {
-				$this->setSellerShopName = $newSellerShopName;
+				$this->SellerShopName = $newSellerShopName;
 			}
 
 			public function setSellerLocation($newSellerLocation) {
@@ -57,7 +57,7 @@
 			}
 
 			public function setSellerOnEtsySince($newSellerOnEtsySince) {
-				$this->setSellerOnEtsySince = $newSellerOnEtsySince;
+				$this->SellerOnEtsySince = $newSellerOnEtsySince;
 			}
 
 			public function __construct($newSellerId, $newSellerShopOwnerName, $newSellerShopName, $newSellerLocation, $newSellerOnEtsySince){
