@@ -24,6 +24,7 @@
 		<?php
 
 		require_once ("nunya.php");
+		echo $username;
 		$link = mysqli_connect("localhost:3306","$username","$password") or die("Could not connect:".mysqli_error($link));
 		mysqli_close($link);
 
