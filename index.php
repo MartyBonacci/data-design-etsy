@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<?php
-		/*create seller class*/
+		/*Create seller Class*/
 		class seller {
 			private $sellerId;
 			private $sellerShopOwnerName;
