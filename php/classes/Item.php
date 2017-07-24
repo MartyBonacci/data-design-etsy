@@ -217,7 +217,7 @@ class item {
 	 * @throws \RangeException if $newItemQuantity is not positive
 	 * @throws \TypeError if $newItemQuantity is not an integer
 	 **/
-	public function setItemQuantity($newItemQuantity) {
+	public function setItemQuantity(int $newItemQuantity): void {
 		// verify the item quantity is positive
 		if($newItemQuantity <= 0) {
 			throw(new \RangeException("item quantity is not positive"));

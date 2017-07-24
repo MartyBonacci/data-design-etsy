@@ -3,8 +3,7 @@
 /**
  * Create Etsy seller class
  *
- * Explain in more detail what this class is all about.
- * Explain in more detail what this class is all about.
+ * seller class which defines the seller Id, ShopOwnerName, ShopName, Location, and OnEtsySince date
  *
  * @author MartyBonacci <mbonacci@@cnm.edu>
  * @version 1.0.0
