@@ -1,6 +1,5 @@
 <?php
 /*seller class*/
-/*test 2
 /**
  * Create Etsy seller class
  *
