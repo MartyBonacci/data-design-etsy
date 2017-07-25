@@ -296,4 +296,41 @@ class seller {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * gets the seller by sellerId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $sellerId seller id to search for
+	 * @return Seller|null Seller found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getSellerBySellerId(\PDO $pdo, int $sellerId) : ?Seller {
+		// sanitize the sellerId before searching
+		if($sellerId <= 0) {
+			throw(new \PDOException("seller id is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT sellerId, sellerShopOwnerName, sellerShopName, sellerLocation, sellerOnEtsySince FROM seller WHERE sellerId = :sellerId";
+		$statement = $pdo->prepare($query);
+
+		// bind the seller id to the place holder in the template
+		$parameters = ["sellerId" => $sellerId];
+		$statement->execute($parameters);
+
+		// grab the seller from mySQL
+		try {
+			$seller = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$seller = new Seller($row["sellerId"], $row["sellerShopOwnerName"], $row["sellerShopName"], $row["sellerLocation"], $row["sellerOnEtsySince"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($seller);
+	}
 }
