@@ -358,12 +358,12 @@ class seller {
 		$query = "SELECT sellerId, sellerShopOwnerName, sellerShopName, sellerLocation, sellerOnEtsySince FROM seller WHERE sellerShopOwnerName LIKE :sellerShopOwnerName";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet content to the place holder in the template
+		// bind the seller content to the place holder in the template
 		$sellerShopOwnerName = "%$sellerShopOwnerName%";
 		$parameters = ["sellerShopOwnerName" => $sellerShopOwnerName];
 		$statement->execute($parameters);
 
-		// build an array of tweets
+		// build an array of sellers
 		$sellers = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
