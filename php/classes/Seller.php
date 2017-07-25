@@ -226,4 +226,74 @@ class seller {
 		// store the seller on etsy since content
 		$this->sellerOnEtsySince = $newSellerOnEtsySince;
 	}
+
+	/**
+	 * inserts this Seller into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) : void {
+		// enforce the sellerId is null (i.e., don't insert a seller that already exists)
+		if($this->sellerId !== null) {
+			throw(new \PDOException("not a new seller"));
+		}
+
+		// create query template
+		$query = "INSERT INTO item(sellerShopOwnerName, sellerShopName, sellerLocation, sellerOnEtsySince) VALUES(:sellerShopOwnerName, :sellerShopName, :sellerLocation, :sellerOnEtsySince)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["sellerShopOwnerName" => $this->sellerShopOwnerName, "sellerShopName" => $this->sellerShopName, "sellerLocation" => $this->sellerLocation, "sellerOnEtsySince" => $this->sellerOnEtsySince];
+		$statement->execute($parameters);
+
+		// update the null sellerId with what mySQL just gave us
+		$this->sellerId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this Seller from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
+		// enforce the sellerId is not null (i.e., don't delete a seller that hasn't been inserted)
+		if($this->sellerId === null) {
+			throw(new \PDOException("unable to delete a seller that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM seller WHERE sellerId = :sellerId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["sellerId" => $this->sellerId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this seller in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+		// enforce the sellerId is not null (i.e., don't update a seller that hasn't been inserted)
+		if($this->sellerId === null) {
+			throw(new \PDOException("unable to update a seller that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE seller SET sellerShopOwnerName = :sellerShopOwnerName, sellerShopName = :sellerShopName, sellerLocation = :sellerLocation, sellerOnEtsySince = :sellerOnEtsySince WHERE sellerId = :sellerId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["sellerShopOwnerName" => $this->sellerShopOwnerName, "sellerShopName" => $this->sellerShopName, "sellerLocation" => $this->sellerLocation, "sellerOnEtsySince" => $this->sellerOnEtsySince];
+		$statement->execute($parameters);
+	}
+
 }
