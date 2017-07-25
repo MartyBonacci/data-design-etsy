@@ -319,8 +319,4 @@ class item {
 
 		$this->itemShippingPolicies = $newItemShippingPolicies;
 	}
-
-
-
 }
-?>

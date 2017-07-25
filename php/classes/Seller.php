@@ -1,5 +1,4 @@
 <?php
-/*test 5
 /*seller class*/
 /**
  * Create Etsy seller class
@@ -228,5 +227,3 @@ class seller {
 		$this->sellerOnEtsySince = $newSellerOnEtsySince;
 	}
 }
-
-?>
