@@ -333,4 +333,49 @@ class seller {
 		}
 		return($seller);
 	}
+
+	/**
+	 * gets the Seller by seller Shop Owner Name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $sellerShopOwnerName seller Shop Owner Name to search for
+	 * @return \SplFixedArray SplFixedArray of Sellers found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getSellerBySellerShopOwnerName(\PDO $pdo, string $sellerShopOwnerName) : \SPLFixedArray {
+		// sanitize the description before searching
+		$sellerShopOwnerName = trim($sellerShopOwnerName);
+		$sellerShopOwnerName = filter_var($sellerShopOwnerName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($sellerShopOwnerName) === true) {
+			throw(new \PDOException("seller shop owner name is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$sellerShopOwnerName = str_replace("_", "\\_", str_replace("%", "\\%", $sellerShopOwnerName));
+
+		// create query template
+		$query = "SELECT sellerId, sellerShopOwnerName, sellerShopName, sellerLocation, sellerOnEtsySince FROM seller WHERE sellerShopOwnerName LIKE :sellerShopOwnerName";
+		$statement = $pdo->prepare($query);
+
+		// bind the tweet content to the place holder in the template
+		$sellerShopOwnerName = "%$sellerShopOwnerName%";
+		$parameters = ["sellerShopOwnerName" => $sellerShopOwnerName];
+		$statement->execute($parameters);
+
+		// build an array of tweets
+		$sellers = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$seller = new Seller($row["sellerId"], $row["sellerShopOwnerName"], $row["sellerShopName"], $row["sellerLocation"], $row["sellerOnEtsySince"]);
+				$sellers[$sellers->key()] = $seller;
+				$sellers->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($sellers);
+	}
 }
