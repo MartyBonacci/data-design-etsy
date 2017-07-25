@@ -378,4 +378,50 @@ class seller {
 		}
 		return($sellers);
 	}
+
+
+	/**
+	 * gets the Seller by seller Location
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $sellerLocation seller location to search for
+	 * @return \SplFixedArray SplFixedArray of Sellers found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getSellerBySellerLocation(\PDO $pdo, string $sellerLocation) : \SPLFixedArray {
+		// sanitize the description before searching
+		$sellerLocation = trim($sellerLocation);
+		$sellerLocation = filter_var($sellerLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($sellerLocation) === true) {
+			throw(new \PDOException("seller shop owner name is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$sellerLocation = str_replace("_", "\\_", str_replace("%", "\\%", $sellerLocation));
+
+		// create query template
+		$query = "SELECT sellerId, sellerShopOwnerName, sellerShopName, sellerLocation, sellerOnEtsySince FROM seller WHERE sellerLocation LIKE :sellerLocation";
+		$statement = $pdo->prepare($query);
+
+		// bind the seller content to the place holder in the template
+		$sellerLocation = "%$sellerLocation%";
+		$parameters = ["sellerLocation" => $sellerLocation];
+		$statement->execute($parameters);
+
+		// build an array of sellers
+		$sellers = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$seller = new Seller($row["sellerId"], $row["sellerShopOwnerName"], $row["sellerShopName"], $row["sellerLocation"], $row["sellerOnEtsySince"]);
+				$sellers[$sellers->key()] = $seller;
+				$sellers->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($sellers);
+	}
 }
