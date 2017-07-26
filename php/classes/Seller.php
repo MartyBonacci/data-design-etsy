@@ -344,7 +344,7 @@ class seller {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getSellerBySellerShopOwnerName(\PDO $pdo, string $sellerShopOwnerName) : \SPLFixedArray {
-		// sanitize the description before searching
+		// sanitize the seller shop owner name before searching
 		$sellerShopOwnerName = trim($sellerShopOwnerName);
 		$sellerShopOwnerName = filter_var($sellerShopOwnerName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($sellerShopOwnerName) === true) {
@@ -390,7 +390,7 @@ class seller {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getSellerBySellerLocation(\PDO $pdo, string $sellerLocation) : \SPLFixedArray {
-		// sanitize the description before searching
+		// sanitize the seller location before searching
 		$sellerLocation = trim($sellerLocation);
 		$sellerLocation = filter_var($sellerLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($sellerLocation) === true) {
