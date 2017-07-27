@@ -1,5 +1,6 @@
 <?php
 /*seller class*/
+
 /**
  * Create Etsy seller class
  *
@@ -234,7 +235,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function insert(\PDO $pdo) : void {
+	public function insert(\PDO $pdo): void {
 		// enforce the sellerId is null (i.e., don't insert a seller that already exists)
 		if($this->sellerId !== null) {
 			throw(new \PDOException("not a new seller"));
@@ -259,7 +260,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function delete(\PDO $pdo) : void {
+	public function delete(\PDO $pdo): void {
 		// enforce the sellerId is not null (i.e., don't delete a seller that hasn't been inserted)
 		if($this->sellerId === null) {
 			throw(new \PDOException("unable to delete a seller that does not exist"));
@@ -281,7 +282,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function update(\PDO $pdo) : void {
+	public function update(\PDO $pdo): void {
 		// enforce the sellerId is not null (i.e., don't update a seller that hasn't been inserted)
 		if($this->sellerId === null) {
 			throw(new \PDOException("unable to update a seller that does not exist"));
@@ -305,7 +306,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getSellerBySellerId(\PDO $pdo, int $sellerId) : ?Seller {
+	public static function getSellerBySellerId(\PDO $pdo, int $sellerId): ?Seller {
 		// sanitize the sellerId before searching
 		if($sellerId <= 0) {
 			throw(new \PDOException("seller id is not positive"));
@@ -331,7 +332,7 @@ class seller {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($seller);
+		return ($seller);
 	}
 
 	/**
@@ -343,7 +344,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getSellerBySellerShopOwnerName(\PDO $pdo, string $sellerShopOwnerName) : \SPLFixedArray {
+	public static function getSellerBySellerShopOwnerName(\PDO $pdo, string $sellerShopOwnerName): \SPLFixedArray {
 		// sanitize the seller shop owner name before searching
 		$sellerShopOwnerName = trim($sellerShopOwnerName);
 		$sellerShopOwnerName = filter_var($sellerShopOwnerName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -376,7 +377,7 @@ class seller {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($sellers);
+		return ($sellers);
 	}
 
 
@@ -389,7 +390,7 @@ class seller {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getSellerBySellerLocation(\PDO $pdo, string $sellerLocation) : \SPLFixedArray {
+	public static function getSellerBySellerLocation(\PDO $pdo, string $sellerLocation): \SPLFixedArray {
 		// sanitize the seller location before searching
 		$sellerLocation = trim($sellerLocation);
 		$sellerLocation = filter_var($sellerLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -422,6 +423,9 @@ class seller {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($sellers);
+		return ($sellers);
 	}
+	
+	
+	
 }
