@@ -1,4 +1,7 @@
 <?php
+namespace Edu\Cnm\DataDesign;
+
+require_once("autoload.php");
 /*seller class*/
 
 /**
@@ -9,7 +12,8 @@
  * @author MartyBonacci <mbonacci@@cnm.edu>
  * @version 1.0.0
  **/
-class seller {
+class seller implements \JsonSerializable {
+	use ValidateDate;
 	/**
 	 * id for this Seller; this is the primary key
 	 * @var int $sellerId
@@ -425,7 +429,17 @@ class seller {
 		}
 		return ($sellers);
 	}
-	
-	
-	
+
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		//format the date so that the front end can consume it
+		$fields["sellerOnEtsySince"] = round(floatval($this->sellerOnEtsySince->format("U.u")) * 1000);
+		return($fields);
+	}
 }

@@ -1,4 +1,7 @@
 <?php
+namespace Edu\Cnm\DataDesign;
+
+require_once("autoload.php");
 /*item class*/
 /**
  * Create Etsy item class
@@ -8,7 +11,8 @@
  * @author MartyBonacci <mbonacci@@cnm.edu>
  * @version 1.0.0
  **/
-class item {
+class item implements \JsonSerializable {
+	use ValidateDate;
 	/**
 	 * id for this Item; this is the primary key
 	 * @var int $itemId
@@ -318,5 +322,133 @@ class item {
 		// store the item shipping policies content
 
 		$this->itemShippingPolicies = $newItemShippingPolicies;
+	}
+
+
+
+
+
+
+	/**
+	 * inserts this Item into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo): void {
+		// enforce the itemId is null (i.e., don't insert a seller that already exists)
+		if($this->sellerId !== null) {
+			throw(new \PDOException("not a new seller"));
+		}
+
+		// create query template
+		$query = "INSERT INTO item(sellerId, itemName, itemPrice, itemQuantity, itemOverview, itemDetails, itemShippingPolicies ) VALUES(:sellerId, :itemName, :itemPrice, :itemQuantity, :itemOverview, :itemDetails, :itemShippingPolicies )";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["sellerId" => $this->sellerId, "itemName" => $this->itemName, "itemPrice" => $this->itemPrice, "itemQuantity" => $this->itemQuantity, "itemOverview" => $this->itemOverview, "itemDetails" => $this->itemDetails, "itemShippingPolicies" => $this->itemShippingPolicies];
+		$statement->execute($parameters);
+
+		// update the null sellerId with what mySQL just gave us
+		$this->sellerId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this Item from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo): void {
+		// enforce the itemId is not null (i.e., don't delete a item that hasn't been inserted)
+		if($this->itemId === null) {
+			throw(new \PDOException("unable to delete an item that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM item WHERE itemId = :itemId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["itemId" => $this->itemId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this item in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo): void {
+		// enforce the itemId is not null (i.e., don't update an item that hasn't been inserted)
+		if($this->itemId === null) {
+			throw(new \PDOException("unable to update a item that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE item SET sellerId = :sellerId, itemName = :itemName, itemPrice = :itemPrice, itemQuantity = :itemQuantity, itemOverview = :itemOverview, itemDetails = :itemDetails, itemShippingPolicies = :itemShippingPolicies  WHERE itemId = :itemId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["sellerId" => $this->sellerId, "itemName" => $this->itemName, "itemPrice" => $this->itemPrice, "itemQuantity" => $this->itemQuantity, "itemOverview" => $this->itemOverview, "itemDetails" => $this->itemDetails, "itemShippingPolicies" => $this->itemShippingPolicies];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the item by sellerId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $itemId item id to search for
+	 * @return Item|null Seller found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getItemByItemId(\PDO $pdo, int $itemId): ?Item {
+		// sanitize the sellerId before searching
+		if($itemId <= 0) {
+			throw(new \PDOException("item id is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT itemId, sellerId, itemName, itemPrice, itemQuantity, itemOverview, itemDetails, itemShippingPolicies FROM item WHERE itemId = :itemId";
+		$statement = $pdo->prepare($query);
+
+		// bind the seller id to the place holder in the template
+		$parameters = ["itemId" => $itemId];
+		$statement->execute($parameters);
+
+		// grab the seller from mySQL
+		try {
+			$item = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$seller = new Seller($row["sellerId"], $row["sellerShopOwnerName"], $row["sellerShopName"], $row["sellerLocation"], $row["sellerOnEtsySince"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($item);
+	}
+
+
+
+
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		//format the date so that the front end can consume it
+		$fields["sellerOnEtsySince"] = round(floatval($this->sellerOnEtsySince->format("U.u")) * 1000);
+		return($fields);
 	}
 }
